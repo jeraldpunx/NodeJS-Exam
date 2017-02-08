@@ -10,6 +10,12 @@ var router = express.Router();
 
 var Vehicle     = require('./model/vehicles');
 
+app.use(function(req, res, next) {
+    if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
+        if (!req.authenticated) return res.status(401).send();
+        next();
+    }
+});
 
 app.route('/vehicles')
 	.get(function(req, res) {
@@ -21,6 +27,8 @@ app.route('/vehicles')
             res.json(vehicles);
         });
 	});
+
+
 
 app.route('/vehicles/new')
 	.post(function(req, res) {
@@ -120,5 +128,5 @@ app.route('/vehicles/getVehicleByYearModel/:yearModel')
 
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+  console.log('VEHICLE EXAM NODEJS!')
 });
